@@ -8,7 +8,6 @@ AudioPlayer song;
 BeatDetect beat;
 FFT fftLin;
 Capture cam;
-OpenCV opencv;
 
 volatile float red =66;
 volatile float green = 66;
@@ -17,6 +16,7 @@ volatile float period = 0;
 
 color[] means = new color[12];
 PImage before, after;
+CameraThread t;
 
 void setup() {
   size(1280, 960);
@@ -26,17 +26,14 @@ void setup() {
   song.play();
   fftLin = new FFT( song.bufferSize(), song.sampleRate() );
   beat = new BeatDetect();
-  
-  String[] cameras = Capture.list();
 
 
   cam = new Capture(this, 1280, 960, "name=Logitech HD Webcam C270,size=1280x960,fps=30");
-  cam.start();
   
-  opencv = new OpenCV(this, cam);
-  before = cam.copy();
-  after = cam.copy();
-  frameRate(30);
+  t = new CameraThread(this, cam);
+  t.start();
+  
+  frameRate(30);0);
 }
 
 void draw() {
@@ -46,19 +43,10 @@ void draw() {
   period += song.left.get(5);
   if (period >= 600){
       period -= 600;
-    }
-  fftLin.forward( song.mix );
-
-
-  if(cam.available()) {
-    before = after.copy();
-    cam.read();
   }
+    
+  t.colorSet(color(red, blue, green), color(blue, green, red));
+    
   
-  image(cam, 0, 0);
-  filter(POSTERIZE, 8);
-  after = get();
-  
-  drawPosterize(after.copy(), before, color(red,green,blue), color(blue,red,green));
   
 }
