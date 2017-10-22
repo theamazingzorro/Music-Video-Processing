@@ -10,6 +10,8 @@ PImage before, after;
 void setup() {
   size(1280, 960);
   
+  String[] cameras = Capture.list();
+  
   cam = new Capture(this, 1280, 960, cameras[107]);
   cam.start();
   
