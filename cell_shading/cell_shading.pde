@@ -28,8 +28,13 @@ void setup() {
   beat = new BeatDetect();
   
   String[] cameras = Capture.list();
+<<<<<<< HEAD
 
   cam = new Capture(this, 1280, 960, "name=Logitech HD Webcam C270,size=1280x960,fps=30");
+=======
+  
+  cam = new Capture(this, 1280, 960, cameras[107]);
+>>>>>>> 77ddfd2224c0527c0e88cd59be3068fd8cac7778
   cam.start();
   
   opencv = new OpenCV(this, cam);
@@ -39,6 +44,7 @@ void setup() {
 }
 
 void draw() {
+<<<<<<< HEAD
   red =   89 * sin((period * PI) / 6) + 89 + 66;
   green =   89 * sin((period * PI) / 6 + (2 * PI) / 3) + 89 + 66;
   blue =   89 * sin((period * PI) / 6 + (4 * PI) / 3) + 89 + 66;
@@ -47,6 +53,8 @@ void draw() {
       period -= 600;
     }
   fftLin.forward( song.mix );
+=======
+>>>>>>> 77ddfd2224c0527c0e88cd59be3068fd8cac7778
 
   if(cam.available()) {
     before = after.copy();
@@ -56,7 +64,13 @@ void draw() {
   image(cam, 0, 0);
   filter(POSTERIZE, 8);
   after = get();
+<<<<<<< HEAD
   
   drawPosterize(after.copy(), before, color(red,green,blue), color(blue,red,green));
+=======
+ 
+  drawPosterize(after.copy(), before, color(244,66,66), color(66,66,244));
+
+>>>>>>> 77ddfd2224c0527c0e88cd59be3068fd8cac7778
   
 }
